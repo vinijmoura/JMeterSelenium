@@ -12,6 +12,8 @@ env:
     buildPlatform: 'Any CPU'
     buildConfiguration: 'Release'
     PACKAGE_LOCATION: c:\PartsUnlimited
+    ARTIFACTS_DOWNLOAD: C:\Artifacts\PartsUnlimited
+    WEB_SITE_NAME: PartsUnlimited
 
 jobs:
   build:
@@ -42,3 +44,18 @@ jobs:
         with:
           name: JMeter
           path: ${{ env.PACKAGE_LOCATION }}
+
+  deploydev:
+    needs: build
+    environment:
+     name: dev
+    runs-on: jmeter-test
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.7
+      with:
+        name:  JMeter
+        path: ${{ env.DOWNLOAD_DIRECTORY }}\$GITHUB_RUN_NUMBER
+        
+    - name: Run MSDeploy.exe
+      run: msdeploy -verb:sync -source:package=$env:DOWNLOAD_DIRECTORY\$GITHUB_RUN_NUMBER\PartsUnlimitedWebsite.zip -dest:auto -setParam:name=`'IIS Web Application Name`',value=$env:WEB_SITE_NAME -enableRule:DoNotDeleteRule
