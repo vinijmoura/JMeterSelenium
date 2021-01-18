@@ -35,7 +35,8 @@ jobs:
       - name: Copy JMeter Files
         shell: pwsh
         run: |
-          Copy-Item -Path ./test/PartsUnlimited.LoadTests/* -Destination $env:PACKAGE_LOCATION\LoadTests -Force
+          cd $env:PACKAGE_LOCATION
+          Copy-Item -Path ${{ github.workspace }}/test/PartsUnlimited.LoadTests/* -Destination .\LoadTests -Force
           
       - name: Publish Artifacts
         uses: actions/upload-artifact@v1.0.0
