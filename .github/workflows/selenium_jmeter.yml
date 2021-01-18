@@ -1,0 +1,33 @@
+name: SELENIUM and JMETER
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+    Solution_Name: 'PartsUnlimited.sln'                      
+    buildPlatform: 'Any CPU'
+    buildConfiguration: 'Release'
+    PACKAGE_LOCATION: c:\PartsUnlimited
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup NuGet.exe for use with actions
+        uses: NuGet/setup-nuget@v1.0.5
+     
+      - name: Restore Packages
+        run: nuget restore $env:Solution_Name
+  
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1.0.2
+      
+      - name: Build using MSBuild
+        run: msbuild $env:Solution_Name /p:platform=$env:buildPlatform /p:Configuration=$env:buildConfiguration /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=$env:PACKAGE_LOCATION
