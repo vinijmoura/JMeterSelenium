@@ -35,8 +35,8 @@ jobs:
       - name: Copy JMeter Files
         shell: pwsh
         run: |
-          Copy-Item -Path ./test/PartsUnlimited.LoadTests/LoadTest.jmx -Destination ${{ env.PACKAGE_LOCATION }}\LoadTests\ -Force
-          Copy-Item -Path ./test/PartsUnlimited.LoadTests/jtl_junit_converter.py -Destination ${{ env.PACKAGE_LOCATION }}\LoadTests\ -Force
+          Copy-Item -Path ./test/PartsUnlimited.LoadTests/LoadTest.jmx -Destination ${{ env.PACKAGE_LOCATION }}\LoadTests -Force
+          Copy-Item -Path ./test/PartsUnlimited.LoadTests/jtl_junit_converter.py -Destination ${{ env.PACKAGE_LOCATION }}\LoadTests -Force
       - name: Publish Artifacts
         uses: actions/upload-artifact@v1.0.0
         with:
