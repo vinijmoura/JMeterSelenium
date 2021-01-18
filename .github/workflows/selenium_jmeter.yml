@@ -24,21 +24,21 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.5
      
       - name: Restore Packages
-        run: nuget restore ${{ env.Solution_Name }}
+        run: nuget restore $env:Solution_Name
   
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1.0.2
       
       - name: Build using MSBuild
-        run: msbuild ${{ env.Solution_Name }} /p:platform=${{ env.buildPlatform }} /p:Configuration=${{ env.buildConfiguration }} /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=${{ env.PACKAGE_LOCATION }}
+        run: msbuild $env:Solution_Name /p:platform=$env:buildPlatform /p:Configuration=$env:buildConfiguration /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=$env:PACKAGE_LOCATION
 
       - name: Copy JMeter Files
         shell: pwsh
         run: |
-          Copy-Item -Path ./LoadTests/* -Destination ${{ env.PACKAGE_LOCATION }}\LoadTests -Force
+          Copy-Item -Path ./LoadTests/* -Destination $env:PACKAGE_LOCATION\LoadTests -Force
           
       - name: Publish Artifacts
         uses: actions/upload-artifact@v1.0.0
         with:
           name: JMeter
-          path: ${{ env.PACKAGE_LOCATION }}
+          path: $env:PACKAGE_LOCATION
