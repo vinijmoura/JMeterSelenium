@@ -58,4 +58,4 @@ jobs:
         path: ${{ env.ARTIFACTS_DOWNLOAD }}\${GITHUB_RUN_NUMBER}
         
     - name: Run MSDeploy.exe
-      run: msdeploy -verb:sync -source:package=$env:DOWNLOAD_DIRECTORY\$GITHUB_RUN_NUMBER\PartsUnlimitedWebsite.zip -dest:auto -setParam:name=`'IIS Web Application Name`',value=$env:WEB_SITE_NAME -enableRule:DoNotDeleteRule
+      run: msdeploy -verb:sync -source:package=${{ env.ARTIFACTS_DOWNLOAD }}\${GITHUB_RUN_NUMBER}\PartsUnlimitedWebsite.zip -dest:auto -setParam:name=`'IIS Web Application Name`',value=$env:WEB_SITE_NAME -enableRule:DoNotDeleteRule
