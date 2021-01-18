@@ -71,21 +71,3 @@ jobs:
       with:
         name: JMeterTestFile
         path: ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\${{ github.run_number }}.xml
-        
-  publishtest:
-    needs: dev
-    environment:
-       name: publishtest
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.0.7
-      with:
-        name:  JMeterTestFile
-        path: .\${{ github.run_number }}
-        
-    - name: Publish JMeter Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1.6
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        files: .\${{ github.run_number }}\${{ github.run_number }}.xml
