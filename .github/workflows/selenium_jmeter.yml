@@ -59,3 +59,9 @@ jobs:
         
     - name: Run MSDeploy.exe
       run: msdeploy -verb:sync -source:package=${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\PartsUnlimitedWebsite.zip -dest:auto -setParam:name=`'IIS Web Application Name`',value=$env:WEB_SITE_NAME -enableRule:DoNotDeleteRule
+  
+    - name: Run JMeter
+      run: jmeter -n -t ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\LoadTest.jmx -l ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\${{ github.run_number }}.jtl
+      
+    - name: Run Convert JMeter Result to JUnit
+      run:  python ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\jtl_junit_converter.py ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\${{ github.run_number }}.jtl ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\${{ github.run_number }}.xml
