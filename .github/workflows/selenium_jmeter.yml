@@ -65,3 +65,9 @@ jobs:
       
     - name: Run Convert JMeter Result to JUnit
       run:  python ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\jtl_junit_converter.py ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\${{ github.run_number }}.jtl ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\${{ github.run_number }}.xml
+
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1.6
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        files: ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\${{ github.run_number }}.xml
