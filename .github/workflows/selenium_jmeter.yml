@@ -55,7 +55,7 @@ jobs:
       uses: actions/download-artifact@v2.0.7
       with:
         name:  JMeter
-        path: ${{ env.ARTIFACTS_DOWNLOAD }}\${GITHUB_RUN_NUMBER}
+        path: ${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}
         
     - name: Run MSDeploy.exe
-      run: msdeploy -verb:sync -source:package=${{ env.ARTIFACTS_DOWNLOAD }}\${GITHUB_RUN_NUMBER}\PartsUnlimitedWebsite.zip -dest:auto -setParam:name=`'IIS Web Application Name`',value=$env:WEB_SITE_NAME -enableRule:DoNotDeleteRule
+      run: msdeploy -verb:sync -source:package=${{ env.ARTIFACTS_DOWNLOAD }}\${{ github.run_number }}\PartsUnlimitedWebsite.zip -dest:auto -setParam:name=`'IIS Web Application Name`',value=$env:WEB_SITE_NAME -enableRule:DoNotDeleteRule
